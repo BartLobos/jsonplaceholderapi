@@ -120,6 +120,9 @@ namespace jsonplaceholderapi.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -128,9 +131,6 @@ namespace jsonplaceholderapi.Data.Migrations
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
-
-                    b.Property<string>("body")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -238,8 +238,7 @@ namespace jsonplaceholderapi.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("CompanyId")
                         .IsUnique();
@@ -261,8 +260,8 @@ namespace jsonplaceholderapi.Data.Migrations
             modelBuilder.Entity("jsonplaceholderapi.Models.User", b =>
                 {
                     b.HasOne("jsonplaceholderapi.Address", "Address")
-                        .WithOne("User")
-                        .HasForeignKey("jsonplaceholderapi.Models.User", "AddressId")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -275,11 +274,6 @@ namespace jsonplaceholderapi.Data.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("jsonplaceholderapi.Address", b =>
-                {
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("jsonplaceholderapi.Company", b =>

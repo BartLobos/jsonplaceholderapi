@@ -32,7 +32,7 @@ private readonly JsonPlaceholderDbContext _context;
     }
 
        
-    [HttpGet("{postId}/posts")]
+    [HttpGet("{postId}/comments")]
     public async Task<IActionResult> GetComments(int postId)
     {
         var comments = await _context.Comments.Where(x => x.PostId == postId).ToListAsync();
@@ -53,6 +53,23 @@ private readonly JsonPlaceholderDbContext _context;
         await _context.SaveChangesAsync();
 
         return Created("", posts);
+    }
+
+    [HttpPost("{postId}/comments")]
+
+    public async Task<IActionResult> PostComments(List<Comment> comments, int postId)
+    {
+        comments = comments.Select(x => new Comment()
+        {
+            Name = x.Name, 
+            Email = x.Email,
+            Body = x.Body,
+            PostId = postId
+        }).ToList();
+        await _context.Comments.AddRangeAsync(comments);
+        await _context.SaveChangesAsync();
+
+        return Created("", comments);
     }
 }
 

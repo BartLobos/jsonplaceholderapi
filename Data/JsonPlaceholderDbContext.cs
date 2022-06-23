@@ -20,7 +20,23 @@ namespace jsonplaceholderapi.Data
         public DbSet<Geo> Geos { get; set; }
         public DbSet<Company> Companies { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // modelBuilder.Entity<User>()
+            //     .HasOne(u => u.Address)
+            //     .WithOne(a => a.User)
+            //     .HasForeignKey<Address>(a => a.Id);
+            // modelBuilder.Entity<Address>().ToTable("Users");
+            // modelBuilder.Entity<User>()
+            //     .HasOne(u => u.Company)
+            //     .WithOne(c => c.User)
+            //     .HasForeignKey<Company>(c => c.Id);
 
+            //  modelBuilder.Entity<Address>()
+            //     .HasOne(a => a.Geo)
+            //     .WithOne(g => g.Address)
+            //     .HasForeignKey<Geo>(g => g.Id);
+        }
 
     }
 }
