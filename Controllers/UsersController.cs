@@ -73,6 +73,23 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    
+    [HttpGet("{userId}/posts")]
+    public async Task<IActionResult> GetPosts(int userId)
+    {
+        var posts = await _context.Posts.Where(x => x.UserId == userId).ToListAsync();
+
+        if (posts == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(posts);
+    }
+
+
+
+
     [HttpPost]
     public async Task<IActionResult> PostUsers(List<User> users)
     {

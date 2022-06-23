@@ -31,6 +31,20 @@ private readonly JsonPlaceholderDbContext _context;
         return Ok(posts);
     }
 
+       
+    [HttpGet("{postId}/posts")]
+    public async Task<IActionResult> GetComments(int postId)
+    {
+        var comments = await _context.Comments.Where(x => x.PostId == postId).ToListAsync();
+
+        if (comments == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(comments);
+    }
+
     [HttpPost]
 
     public async Task<IActionResult> PostPosts(List<Post> posts)
