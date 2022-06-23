@@ -57,19 +57,19 @@ private readonly JsonPlaceholderDbContext _context;
 
     [HttpPost("{postId}/comments")]
 
-    public async Task<IActionResult> PostComments(List<Comment> comments, int postId)
+    public async Task<IActionResult> PostComments(Comment comment, int postId)
     {
-        comments = comments.Select(x => new Comment()
+        comment = new Comment()
         {
-            Name = x.Name, 
-            Email = x.Email,
-            Body = x.Body,
+            Name = comment.Name, 
+            Email = comment.Email,
+            Body = comment.Body,
             PostId = postId
-        }).ToList();
-        await _context.Comments.AddRangeAsync(comments);
+        };
+        await _context.Comments.AddAsync(comment);
         await _context.SaveChangesAsync();
 
-        return Created("", comments);
+        return Created("", comment);
     }
 }
 
