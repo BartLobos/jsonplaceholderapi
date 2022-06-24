@@ -47,9 +47,9 @@ private readonly JsonPlaceholderDbContext _context;
 
     [HttpPost]
 
-    public async Task<IActionResult> PostPosts(List<Post> posts)
+    public async Task<IActionResult> PostPosts(Post posts)
     {
-        await _context.Posts.AddRangeAsync(posts);
+        await _context.Posts.AddAsync(posts);
         await _context.SaveChangesAsync();
 
         return Created("", posts);
